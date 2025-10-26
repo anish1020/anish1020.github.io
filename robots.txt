@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://anishkshirsagar.dev/sitemap.xml
+
+# Disallow crawling of form processing pages
+Disallow: /form-handler*
+
+# Allow crawling of all CSS, JS, and image files
+Allow: /assets/*
+Allow: /resume/*
+Allow: /*.css
+Allow: /*.js
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
