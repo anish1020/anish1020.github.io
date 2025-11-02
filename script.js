@@ -380,7 +380,7 @@ class PortfolioApp {
 class ContactForm {
   constructor() {
     this.form = document.getElementById('contactForm');
-    this.scriptURL = 'https://script.google.com/macros/s/AKfycbytAoNF6teSyKCSnCgPBynnQ0CFOZtovoS7Jd5MPOCjviOI1QP4a59IvKahwylv7oM/exec';
+    this.scriptURL = 'https://script.google.com/macros/s/AKfycbxTc2-mrKLYlyYh578TBCDck5ERWuG3NXNKcUqAkfJs4StxEljc0uPqDRVuKY7ALo1m/exec';
     this.init();
   }
 
@@ -537,6 +537,7 @@ particleStyle.textContent = `
   }
 `;
 document.head.appendChild(particleStyle);
+
 
 
 
