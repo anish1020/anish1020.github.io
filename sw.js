@@ -1,6 +1,6 @@
 // Service Worker for Portfolio Performance Optimization
-const CACHE_NAME = 'anish-portfolio-v2';
-const STATIC_CACHE = 'static-v2';
+const CACHE_NAME = 'anish-portfolio-v4';
+const STATIC_CACHE = 'static-v4';
 
 // Files to cache for offline functionality
 const CACHE_ASSETS = [
