@@ -249,6 +249,46 @@
       }
     }
   </style>
+  <style>
+    /* CRITICAL OVERRIDES FOR TIMELINE LAYOUT - INJECTED TO BYPASS CACHE */
+    @media screen {
+
+      #experience .timeline-item,
+      #education .timeline-item {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+      }
+
+      #experience .timeline-item .timeline-content,
+      #education .timeline-item .timeline-content {
+        margin-left: 60px !important;
+        margin-right: 0 !important;
+        width: calc(100% - 60px) !important;
+      }
+
+      #experience .timeline-marker,
+      #education .timeline-marker {
+        left: 20px !important;
+        transform: translateX(-50%) !important;
+        top: 0 !important;
+        z-index: 2 !important;
+      }
+
+      #experience .timeline::before,
+      #education .timeline::before {
+        content: '' !important;
+        left: 20px !important;
+        transform: translateX(-50%) !important;
+        width: 2px !important;
+        background: var(--gradient-primary) !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        display: block !important;
+        z-index: 0 !important;
+      }
+    }
+  </style>
+  </style>
 
   <!-- Preload social media images for faster loading -->
   <link rel="preload" href="assets/linkedin.png" as="image">
@@ -256,7 +296,7 @@
   <link rel="preload" href="assets/twitter.png" as="image">
 
   <!-- Load CSS synchronously to ensure proper styling -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=fixes_final">
 
   <!-- JSON-LD Structured Data for SEO -->
   <script type="application/ld+json">
@@ -776,78 +816,77 @@
                   <div class="timeline-body">
                     <h4>Information Technology</h4>
                     <p class="institution">Konkan Gyanpeeth College of Engineering, Karjat</p>
-                    <div class="education-details">
+                    <!-- <div class="education-details">
                       <div class="detail-item">
                         <span class="detail-label">CGPA:</span>
                         <span class="detail-value">7.8/10</span>
-                      </div>
-                      <div class="detail-item">
-                        <span class="detail-label">Relevant Coursework:</span>
-                        <span class="detail-value">Web Development, DevOps, Data Structures, Algorithms, Database
-                          Management</span>
-                      </div>
+                      </div> -->
+                    <div class="detail-item">
+                      <span class="detail-label">Relevant Coursework:</span>
+                      <span class="detail-value">Web Development, DevOps, Data Structures, Algorithms, Database
+                        Management</span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="timeline-item">
-                <div class="timeline-marker">
-                  <div class="timeline-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path
-                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-                    </svg>
-                  </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">
+                <div class="timeline-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                  </svg>
                 </div>
-                <div class="timeline-content">
-                  <div class="timeline-header">
-                    <h3>Higher Secondary Certificate (HSC)</h3>
-                    <span class="timeline-date">2020 - 2022</span>
-                  </div>
-                  <div class="timeline-body">
-                    <h4>Science Stream</h4>
-                    <p class="institution">Lakshya Prep High School and Junior College, Kalyan</p>
-                    <div class="education-details">
-                      <div class="detail-item">
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <h3>Higher Secondary Certificate (HSC)</h3>
+                  <span class="timeline-date">2020 - 2022</span>
+                </div>
+                <div class="timeline-body">
+                  <h4>Science Stream</h4>
+                  <p class="institution">Lakshya Prep High School and Junior College, Kalyan</p>
+                  <div class="education-details">
+                    <!-- <div class="detail-item">
                         <span class="detail-label">Percentage:</span>
                         <span class="detail-value">60.67%</span>
-                      </div>
-                      <div class="detail-item">
-                        <span class="detail-label">Subjects:</span>
-                        <span class="detail-value">Physics, Chemistry, Mathematics</span>
-                      </div>
+                      </div> -->
+                    <div class="detail-item">
+                      <span class="detail-label">Subjects:</span>
+                      <span class="detail-value">Physics, Chemistry, Mathematics</span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="timeline-item">
-                <div class="timeline-marker">
-                  <div class="timeline-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                    </svg>
-                  </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">
+                <div class="timeline-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                  </svg>
                 </div>
-                <div class="timeline-content">
-                  <div class="timeline-header">
-                    <h3>Secondary School Certificate (SSC)</h3>
-                    <span class="timeline-date">2020</span>
-                  </div>
-                  <div class="timeline-body">
-                    <h4>General Studies</h4>
-                    <p class="institution">Sri Vani Vidyashala High School, Kalyan</p>
-                    <div class="education-details">
-                      <div class="detail-item">
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <h3>Secondary School Certificate (SSC)</h3>
+                  <span class="timeline-date">2020</span>
+                </div>
+                <div class="timeline-body">
+                  <h4>General Studies</h4>
+                  <p class="institution">Sri Vani Vidyashala High School, Kalyan</p>
+                  <div class="education-details">
+                    <!-- <div class="detail-item">
                         <span class="detail-label">Percentage:</span>
                         <span class="detail-value">78.80%</span>
-                      </div>
-                      <div class="detail-item">
-                        <span class="detail-label">Achievements:</span>
-                        <span class="detail-value">Cleared Olympiad and Elementary Examination</span>
-                      </div>
+                      </div> -->
+                    <div class="detail-item">
+                      <span class="detail-label">Achievements:</span>
+                      <span class="detail-value">Cleared Olympiad and Elementary Examination</span>
                     </div>
                   </div>
                 </div>
@@ -855,6 +894,7 @@
             </div>
           </div>
         </div>
+      </div>
     </section>
 
     <footer id="contact">
