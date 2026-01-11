@@ -124,41 +124,9 @@ class PortfolioApp {
     });
   }
 
-  // Theme Toggle Functionality
+  // Theme Toggle Functionality - Now handled by new button in navbar
   initializeThemeToggle() {
-    const themeToggle = document.getElementById('theme-checkbox');
-    const html = document.documentElement;
-    
-    // Check for saved theme or default to dark
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    
-    // Set initial theme
-    if (savedTheme === 'light') {
-      html.setAttribute('data-theme', 'light');
-      themeToggle.checked = true;
-    } else {
-      html.removeAttribute('data-theme');
-      themeToggle.checked = false;
-    }
-    
-    // Theme toggle event listener
-    themeToggle.addEventListener('change', () => {
-      if (themeToggle.checked) {
-        html.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        this.updateParticleColors('light');
-      } else {
-        html.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'dark');
-        this.updateParticleColors('dark');
-      }
-      
-      // Trigger theme change animation
-      document.body.style.transition = 'all 0.3s ease';
-      setTimeout(() => {
-        document.body.style.transition = '';
-      }, 300);
-    });
+    // Legacy theme toggle code removed
   }
   
   // Update particle colors based on theme
@@ -424,7 +392,7 @@ class ContactForm {
       })
       .then(() => {
         submitBtn.textContent = 'Message Sent! ✓';
-        submitBtn.style.background = '#10b981';
+        submitBtn.style.background = '#8b5cf6';
         
         setTimeout(() => {
           submitBtn.textContent = originalText;
@@ -538,7 +506,275 @@ particleStyle.textContent = `
 `;
 document.head.appendChild(particleStyle);
 
+// ============================================
+// Random Music Player with Multiple Tracks
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const musicToggle = document.getElementById('musicToggle');
+  const backgroundMusic = document.getElementById('backgroundMusic');
+  
+  if (musicToggle && backgroundMusic) {
+    // ========================================
+    // CONFIGURATION: Add your music files here
+    // ========================================
+    
+    // Your local music tracks (will be played first)
+    const localTracks = [
+      'assets/music/Whatever-It-Takes-Instrumental.mp3',
+      'assets/music/EDM-Goes-Epic-No-Copyright-Music.com-01-EDM-Goes-Epic.mp3',
+      'assets/music/Higher-Free-No-Copyright-Music-by-Liborio-Conti-01-Higher-With-Vocals.mp3',
+      'assets/music/Upbeat-Drums-No-Copyright-Music-01-Upbeat-Drums.mp3'
+    ];
+    
+    // Fallback online tracks (only used if local tracks fail)
+    const fallbackTracks = [
+      'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    ];
+    
+    // Use local tracks by default, fallback if needed
+    let musicTracks = [...localTracks];
+    let usingFallback = false;
+    
+    let isPlaying = false;
+    let isLoading = false;
+    let currentTrackIndex = -1;
+    let playedTracks = []; // Keep track of played songs to avoid immediate repeats
+    
+    // ========================================
+    // Helper Functions
+    // ========================================
+    
+    // Get a random track that hasn't been played recently
+    function getRandomTrack() {
+      
+      // If all tracks have been played, reset the played list
+      if (playedTracks.length >= musicTracks.length - 1) {
+        
+        playedTracks = [];
+      }
+      
+      // Get available tracks (not recently played)
+      const availableTracks = musicTracks
+        .map((track, index) => ({ track, index }))
+        .filter(({ index }) => !playedTracks.includes(index));
+      
+      // Select random track from available ones
+      const randomSelection = availableTracks[Math.floor(Math.random() * availableTracks.length)];
+      
+      // Add to played tracks
+      playedTracks.push(randomSelection.index);
+      
+      return randomSelection;
+    }
+    
+    // Load a random track
+    function loadRandomTrack() {
+      
+      const { track, index } = getRandomTrack();
+      currentTrackIndex = index;
+      
+      // Remove existing sources
+      backgroundMusic.innerHTML = '';
+      
+      // Add new source
+      const source = document.createElement('source');
+      source.src = track;
+      source.type = 'audio/mpeg';
+      backgroundMusic.appendChild(source);
+      
+      // Reload the audio element
+      backgroundMusic.load();
+      
+    }
+    
+    // ========================================
+    // Event Listeners
+    // ========================================
+    
+    backgroundMusic.addEventListener('loadstart', () => {
+      
+      isLoading = true;
+    });
+    
+    backgroundMusic.addEventListener('canplay', () => {
+      
+      isLoading = false;
+    });
+    
+    backgroundMusic.addEventListener('error', (e) => {
+      const error = backgroundMusic.error;
+      
+      isLoading = false;
+      
+      // If we're using local tracks and they're failing, switch to fallback
+      if (!usingFallback && musicTracks === localTracks) {
+        
+        musicTracks = fallbackTracks;
+        usingFallback = true;
+        playedTracks = []; // Reset played tracks for new playlist
+      }
+      
+      // Try next track on error
+      
+      loadRandomTrack();
+    });
+    
+    // When a track ends, automatically play the next random track
+    backgroundMusic.addEventListener('ended', () => {
+      
+      
+      loadRandomTrack();
+      
+      // Auto-play next track if music was playing
+      if (isPlaying) {
+        setTimeout(() => {
+          
+          backgroundMusic.play().catch(error => {
+            
+            musicToggle.classList.remove('playing');
+            isPlaying = false;
+          });
+        }, 500); // Small delay to ensure track is loaded
+      }
+    });
+    
+    // Click handler
+    musicToggle.addEventListener('click', async () => {
+      
+      if (isLoading) {
+        
+        return;
+      }
+      
+      if (isPlaying) {
+        backgroundMusic.pause();
+        musicToggle.classList.remove('playing');
+        isPlaying = false;
+        
+      } else {
+        // Resume play
+        
+        
+        try {
+          await backgroundMusic.play();
+          musicToggle.classList.add('playing');
+          isPlaying = true;
+          
+        } catch (error) {
+           
+          
+          // Show user-friendly message
+          if (error.name === 'NotAllowedError') {
+            
+          } else if (error.name === 'NotSupportedError') {
+            
+          } else if (error.name === 'NotFoundError') {
+            
+          }
+          
+          musicToggle.classList.remove('playing');
+          isPlaying = false;
+        }
+      }
+    });
+    
+    // Handle pause event
+    backgroundMusic.addEventListener('pause', () => {
+      if (isPlaying) {
+        musicToggle.classList.remove('playing');
+        isPlaying = false;
+        
+      }
+    });
+    
+    // Handle play event
+    backgroundMusic.addEventListener('play', () => {
+      if (!isPlaying) {
+        musicToggle.classList.add('playing');
+        isPlaying = true;
+        
+      }
+    });
+    
+    // Initial load of a random track (without playing) to avoid delay on first click
+    loadRandomTrack();
 
+    
+    
+  } else {
+    
+  }
+});
 
+// ============================================
+// Theme Toggle Functionality
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const html = document.documentElement;
+  
+  if (themeToggle && themeIcon) {
+    // Check for saved theme or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    
+    // Set initial theme
+    if (savedTheme === 'light') {
+      html.setAttribute('data-theme', 'light');
+      updateThemeIcon('light');
+    } else {
+      html.removeAttribute('data-theme');
+      updateThemeIcon('dark');
+    }
+    
+    // Theme toggle event listener
+    themeToggle.addEventListener('click', () => {
+      const isDark = !html.hasAttribute('data-theme');
+      if (isDark) {
+        // Switch to light
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        updateThemeIcon('light');
+      } else {
+        // Switch to dark
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        updateThemeIcon('dark');
+      }
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === 'light') {
+        themeIcon.classList.add('moon-icon');
+        themeIcon.classList.remove('sun-icon');
+      } else {
+        themeIcon.classList.remove('moon-icon');
+        themeIcon.classList.add('sun-icon');
+      }
+    }
+  }
+});
+
+// ============================================
+// Real-Time Clock Functionality
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const timeText = document.getElementById('timeText');
+  
+  if (timeText) {
+    function updateTime() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      timeText.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    
+    // Update immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
+  }
+});
 
 
