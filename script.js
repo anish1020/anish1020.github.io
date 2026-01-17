@@ -348,7 +348,7 @@ class PortfolioApp {
 class ContactForm {
   constructor() {
     this.form = document.getElementById('contactForm');
-    this.scriptURL = 'https://script.google.com/macros/s/AKfycbxTc2-mrKLYlyYh578TBCDck5ERWuG3NXNKcUqAkfJs4StxEljc0uPqDRVuKY7ALo1m/exec';
+    this.scriptURL = 'https://script.google.com/macros/s/AKfycbz97ex1FILX4XXtOVENlJhPFudOPbCU9-cGspLh8Y4MmV5_YOgy-sk0BwTNEVkT_S8g/exec';
     this.init();
   }
 
@@ -776,5 +776,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateTime, 1000);
   }
 });
+
 
 
