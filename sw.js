@@ -1,6 +1,6 @@
 // Service Worker for Portfolio Performance Optimization
-const CACHE_NAME = 'anish-portfolio-v4';
-const STATIC_CACHE = 'static-v4';
+const CACHE_NAME = 'anish-portfolio-v5';
+const STATIC_CACHE = 'static-v5';
 
 // Files to cache for offline functionality
 const CACHE_ASSETS = [
@@ -8,20 +8,20 @@ const CACHE_ASSETS = [
   '/index.html',
   '/styles.css',
   '/script.js',
-  '/assets/me.jpg',
-  '/assets/linkedin.png',
-  '/assets/github.png',
-  '/assets/twitter.png',
+  '/assets/images/me.jpg',
+  '/assets/images/linkedin.png',
+  '/assets/images/github.png',
+  '/assets/images/twitter.png',
   '/manifest.json'
 ];
 
 // Critical resources to cache immediately
 const CRITICAL_ASSETS = [
   '/styles.css',
-  '/assets/me.jpg',
-  '/assets/linkedin.png',
-  '/assets/github.png',
-  '/assets/twitter.png'
+  '/assets/images/me.jpg',
+  '/assets/images/linkedin.png',
+  '/assets/images/github.png',
+  '/assets/images/twitter.png'
 ];
 
 // Install event - cache critical resources

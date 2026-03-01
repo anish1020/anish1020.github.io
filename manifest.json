@@ -5,19 +5,23 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
-  "theme_color": "#047AFF",
+  "theme_color": "#8b5cf6",
   "orientation": "portrait-primary",
-  "categories": ["portfolio", "developer", "technology"],
+  "categories": [
+    "portfolio",
+    "developer",
+    "technology"
+  ],
   "lang": "en-US",
   "icons": [
     {
-      "src": "/assets/Fevicon.png",
+      "src": "/assets/images/Fevicon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/Fevicon.png",
+      "src": "/assets/images/Fevicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -25,7 +29,7 @@
   ],
   "screenshots": [
     {
-      "src": "/assets/me.jpg",
+      "src": "/assets/images/me.jpg",
       "sizes": "1280x720",
       "type": "image/jpeg"
     }
@@ -38,7 +42,7 @@
       "url": "/#projects",
       "icons": [
         {
-          "src": "/assets/Fevicon.png",
+          "src": "/assets/images/Fevicon.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -51,7 +55,7 @@
       "url": "/#contact",
       "icons": [
         {
-          "src": "/assets/Fevicon.png",
+          "src": "/assets/images/Fevicon.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -64,7 +68,7 @@
       "url": "/resume/Anish Kshirsagar Resume.pdf",
       "icons": [
         {
-          "src": "/assets/Fevicon.png",
+          "src": "/assets/images/Fevicon.png",
           "sizes": "96x96",
           "type": "image/png"
         }

@@ -13,6 +13,7 @@ class PortfolioApp {
     this.initializeSkillsAnimation();
     this.initializeNavigation();
     this.initializeThemeToggle();
+    this.initializeSkillsCarousel();
   }
 
   setupEventListeners() {
@@ -121,6 +122,75 @@ class PortfolioApp {
 
     skillItems.forEach((item) => {
       observer.observe(item);
+    });
+  }
+
+  // Mobile Skills Carousel - Cycle through categories
+  initializeSkillsCarousel() {
+    const categories = document.querySelectorAll('.skill-category');
+    const carouselNav = document.getElementById('skillsCarouselNav');
+    
+    if (!categories.length || !carouselNav) return;
+
+    let currentCategoryIndex = 0;
+    const totalCategories = categories.length;
+
+    const showCategory = (categoryIndex) => {
+      categories.forEach((category, index) => {
+        if (index === categoryIndex) {
+          category.classList.remove('carousel-hidden');
+          category.classList.add('carousel-visible');
+        } else {
+          category.classList.remove('carousel-visible');
+          category.classList.add('carousel-hidden');
+        }
+      });
+      
+      // Update navigation text to show current category
+      const navText = carouselNav.querySelector('.carousel-nav-text');
+      if (navText) {
+        const nextIndex = (categoryIndex + 1) % totalCategories;
+        const nextCategory = categories[nextIndex].querySelector('.category-title').textContent;
+        navText.textContent = `Next: ${nextCategory}`;
+      }
+    };
+
+    const handleCarouselClick = () => {
+      // Move to next category
+      currentCategoryIndex = (currentCategoryIndex + 1) % totalCategories;
+      showCategory(currentCategoryIndex);
+    };
+
+    const setupCarousel = () => {
+      const isMobile = window.innerWidth <= 768;
+      
+      if (isMobile) {
+        // Show carousel nav and initialize with first category
+        carouselNav.style.display = 'block';
+        showCategory(currentCategoryIndex);
+        
+        // Remove existing listener to avoid duplicates
+        carouselNav.removeEventListener('click', handleCarouselClick);
+        carouselNav.addEventListener('click', handleCarouselClick);
+      } else {
+        // Hide carousel nav and show all categories on desktop
+        carouselNav.style.display = 'none';
+        categories.forEach(category => {
+          category.classList.remove('carousel-hidden', 'carousel-visible');
+        });
+      }
+    };
+
+    // Initial setup
+    setupCarousel();
+
+    // Re-setup on window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setupCarousel();
+      }, 250);
     });
   }
 
@@ -780,3 +850,339 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ============================================
+// Recruiter View Toggle
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const viewToggle = document.getElementById('recruiterToggle');
+  const options = viewToggle ? viewToggle.querySelectorAll('.view-toggle-option') : [];
+
+  if (viewToggle && options.length === 2) {
+    const portfolioOption = options[0];
+    const recruiterOption = options[1];
+
+    // Check for saved preference
+    const savedView = localStorage.getItem('recruiterView');
+    if (savedView === 'active') {
+      document.body.classList.add('recruiter-active');
+      portfolioOption.classList.remove('active');
+      recruiterOption.classList.add('active');
+    }
+
+    portfolioOption.addEventListener('click', () => {
+      if (!document.body.classList.contains('recruiter-active')) return;
+      document.body.classList.remove('recruiter-active');
+      portfolioOption.classList.add('active');
+      recruiterOption.classList.remove('active');
+      localStorage.setItem('recruiterView', 'normal');
+    });
+
+    recruiterOption.addEventListener('click', () => {
+      if (document.body.classList.contains('recruiter-active')) return;
+      document.body.classList.add('recruiter-active');
+      recruiterOption.classList.add('active');
+      portfolioOption.classList.remove('active');
+      localStorage.setItem('recruiterView', 'active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+});
+
+// ============================================
+// Recruiter Contact Form Submission
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const recruiterForm = document.getElementById('recruiterContactForm');
+  if (!recruiterForm) return;
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbz97ex1FILX4XXtOVENlJhPFudOPbCU9-cGspLh8Y4MmV5_YOgy-sk0BwTNEVkT_S8g/exec';
+
+  recruiterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const submitBtn = recruiterForm.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    const formData = {
+      name: recruiterForm.querySelector('input[name="name"]').value,
+      email: recruiterForm.querySelector('input[name="email"]').value,
+      message: recruiterForm.querySelector('input[name="message"]').value
+    };
+
+    fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(() => {
+      submitBtn.textContent = 'Sent! ✓';
+      submitBtn.style.background = '#8b5cf6';
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        submitBtn.style.background = '';
+        recruiterForm.reset();
+      }, 3000);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      submitBtn.textContent = 'Error - Try Again';
+      submitBtn.style.background = '#ef4444';
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        submitBtn.style.background = '';
+      }, 3000);
+    });
+  });
+});
+
+
+// ============================================
+// Stacked Project Cards - Interactive Functionality
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const projectData = [
+    {
+      title: 'WanderCraft - Travel Itinerary Planner',
+      description: 'Full-stack application to plan and organize travel itineraries',
+      image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828',
+      url: 'https://travel-itinerary-planner-s6oy.onrender.com/',
+      tech: ['Java Servlet/JSP', 'HTML 5', 'CSS 3', 'MySQL']
+    },
+    {
+      title: 'Nike Replica',
+      description: 'Frontend clone of Nike\'s e-commerce website',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+      url: 'https://nike-clone-g9x5.onrender.com',
+      tech: ['HTML 5', 'CSS 3', 'JavaScript']
+    },
+    {
+      title: 'BioQR',
+      description: 'Secure file sharing with biometric authentication and dynamic QR codes',
+      image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c',
+      url: 'https://bioqr-webapp-lvzy.onrender.com/',
+      tech: ['HTML 5', 'CSS 3', 'JavaScript', 'Node.js', 'Express.js', 'MySQL', 'Java']
+    }
+  ];
+
+  let currentMainIndex = 0;
+  const stackedCards = document.querySelectorAll('.stacked-card');
+
+  // Function to update the main card content
+  function updateMainCard(projectIndex) {
+    const mainCard = document.querySelector('.main-card');
+    const project = projectData[projectIndex];
+
+    if (!mainCard || !project) return;
+
+    // Animate out
+    mainCard.style.opacity = '0';
+    mainCard.style.transform = 'translateY(10px)';
+
+    setTimeout(() => {
+      // Update content
+      const title = mainCard.querySelector('h3');
+      const description = mainCard.querySelector('.project-description');
+      const image = mainCard.querySelector('.project-image img');
+      const techTags = mainCard.querySelector('.tech-tags');
+      const liveBtn = mainCard.querySelector('.live-preview-btn');
+
+      if (title) title.textContent = project.title;
+      if (description) description.textContent = project.description;
+      if (image) image.src = project.image;
+      if (liveBtn) liveBtn.href = project.url;
+
+      // Update tech tags
+      if (techTags) {
+        techTags.innerHTML = project.tech
+          .map(tech => `<span>${tech}</span>`)
+          .join('');
+      }
+
+      // Animate in
+      setTimeout(() => {
+        mainCard.style.opacity = '1';
+        mainCard.style.transform = 'translateY(0)';
+      }, 50);
+    }, 300);
+  }
+
+  // Function to update stacked cards
+  function updateStackedCards(mainProjectIndex) {
+    const availableProjects = projectData.filter((_, index) => index !== mainProjectIndex);
+    
+    stackedCards.forEach((card, cardIndex) => {
+      if (cardIndex < availableProjects.length) {
+        const project = availableProjects[cardIndex];
+        const title = card.querySelector('.stacked-title');
+        const image = card.querySelector('.stacked-thumbnail img');
+        const techTags = card.querySelector('.tech-tags-compact');
+
+        // Store the actual project index for switching
+        const actualIndex = projectData.findIndex(p => p === project);
+        card.setAttribute('data-project', actualIndex);
+
+        if (title) title.textContent = project.title;
+        if (image) image.src = project.image;
+
+        // Update tech tags (show all)
+        if (techTags) {
+          techTags.innerHTML = project.tech
+            .map(tech => `<span>${tech}</span>`)
+            .join('');
+        }
+      }
+    });
+  }
+
+  // Add click handlers to stacked cards
+  let isAnimating = false;
+
+  stackedCards.forEach(card => {
+    // Handle card click - simple swap with fade
+    card.addEventListener('click', (e) => {
+      // Only swap when the Checkout button is clicked
+      if (!e.target.closest('.btn-checkout-mini')) return;
+      if (isAnimating) return;
+
+      const projectIndex = parseInt(card.getAttribute('data-project'));
+      
+      if (projectIndex !== currentMainIndex && !isNaN(projectIndex)) {
+        isAnimating = true;
+        const mainCard = document.querySelector('.main-card');
+        if (!mainCard) { isAnimating = false; return; }
+
+        // Fade out main card
+        mainCard.classList.add('swapping-out');
+
+        // After fade out, swap content and fade back in
+        setTimeout(() => {
+          currentMainIndex = projectIndex;
+          updateMainCard(currentMainIndex);
+          updateStackedCards(currentMainIndex);
+
+          mainCard.classList.remove('swapping-out');
+          mainCard.classList.add('swapping-in');
+
+          setTimeout(() => {
+            mainCard.classList.remove('swapping-in');
+            isAnimating = false;
+          }, 350);
+        }, 250);
+      }
+    });
+
+    // Add keyboard accessibility
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Initialize with first project
+  updateStackedCards(currentMainIndex);
+});
+
+// ============================================
+// Source Code Protection (disabled on localhost)
+// ============================================
+if (!window.location.hostname.includes('localhost') && 
+    !window.location.hostname.includes('127.0.0.1') &&
+    window.location.hostname !== '') {
+(function() {
+  'use strict';
+
+  // 1. Disable right-click context menu
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // 2. Block keyboard shortcuts for DevTools and View Source
+  document.addEventListener('keydown', function(e) {
+    // F12 — DevTools
+    if (e.key === 'F12') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+Shift+I — DevTools
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+Shift+J — Console
+    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+Shift+C — Element Inspector
+    if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+U — View Source
+    if (e.ctrlKey && e.key === 'u') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+S — Save Page
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // 3. Disable text selection via CSS
+  const protectionStyle = document.createElement('style');
+  protectionStyle.textContent = `
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    /* Allow selection in form inputs */
+    input, textarea, [contenteditable="true"] {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+  `;
+  document.head.appendChild(protectionStyle);
+
+  // 4. Disable image dragging
+  document.addEventListener('dragstart', function(e) {
+    if (e.target.tagName === 'IMG') {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // 5. Disable copy (except in form fields)
+  document.addEventListener('copy', function(e) {
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+      return; // Allow copy in form fields
+    }
+    e.preventDefault();
+    return false;
+  });
+})();
+} // End of production-only protection
