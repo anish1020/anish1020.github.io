@@ -248,6 +248,7 @@ class PortfolioApp {
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const sidebarLinks = document.querySelectorAll('.nav-sidebar-link');
 
     if (navToggle && navMenu) {
       navToggle.addEventListener('click', () => {
@@ -256,7 +257,40 @@ class PortfolioApp {
       });
     }
 
-    // Smooth scrolling with optimized positioning for reduced spacing
+    // Smooth scrolling for sidebar nav links
+    sidebarLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        let targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+          const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
+          let scrollPosition;
+          
+          if (targetId === '#home') {
+            scrollPosition = 0;
+          } else {
+            const sectionTop = targetSection.offsetTop;
+            const topMargin = window.innerWidth <= 768 ? 10 : 15;
+            scrollPosition = sectionTop - headerHeight - topMargin;
+          }
+          
+          scrollPosition = Math.max(0, scrollPosition);
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }
+
+        // Update active link
+        sidebarLinks.forEach((navLink) => navLink.classList.remove('nav-sidebar-link-active'));
+        link.classList.add('nav-sidebar-link-active');
+      });
+    });
+
+    // Smooth scrolling with optimized positioning for reduced spacing (old nav links)
     navLinks.forEach((link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -268,19 +302,13 @@ class PortfolioApp {
           let scrollPosition;
           
           if (targetId === '#home') {
-            // For home section, scroll to the very top
             scrollPosition = 0;
           } else {
-            // For other sections, use minimal top spacing
             const sectionTop = targetSection.offsetTop;
-            
-            // Reduced top margin for tighter layout
-            const topMargin = window.innerWidth <= 768 ? 10 : 15; // Minimal margin
-            
+            const topMargin = window.innerWidth <= 768 ? 10 : 15;
             scrollPosition = sectionTop - headerHeight - topMargin;
           }
           
-          // Ensure we don't scroll above the top
           scrollPosition = Math.max(0, scrollPosition);
           
           window.scrollTo({
@@ -341,8 +369,18 @@ class PortfolioApp {
         }
       });
 
-      // Update active navigation link
+      // Update active sidebar link
       if (activeSection) {
+        sidebarLinks.forEach((link) => {
+          link.classList.remove('nav-sidebar-link-active');
+          const linkHref = link.getAttribute('href');
+          
+          if (linkHref === `#${activeSection}`) {
+            link.classList.add('nav-sidebar-link-active');
+          }
+        });
+
+        // Also update old nav links if they exist
         navLinks.forEach((link) => {
           link.classList.remove('active');
           const linkHref = link.getAttribute('href');

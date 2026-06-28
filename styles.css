@@ -317,6 +317,113 @@ body {
   transition: background-color var(--duration-normal) ease, box-shadow var(--duration-normal) ease;
 }
 
+/* Vertical Sidebar Navigation */
+.nav-sidebar {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-fixed);
+  pointer-events: auto;
+}
+
+.nav-sidebar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: rgba(42, 42, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 8px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .nav-sidebar-container {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.nav-sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-sidebar-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.1);
+}
+
+[data-theme="light"] .nav-sidebar-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.nav-sidebar-link-active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.nav-sidebar-link-active:hover {
+  background: var(--primary-dark);
+  color: white;
+  transform: scale(1.1);
+}
+
+.nav-sidebar-link svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Tooltip label on hover */
+.nav-sidebar-label {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(42, 42, 42, 0.95);
+  color: white;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-50%) translateX(-8px);
+  letter-spacing: 0.3px;
+}
+
+[data-theme="light"] .nav-sidebar-label {
+  background: rgba(30, 30, 30, 0.9);
+}
+
+.nav-sidebar-link:hover .nav-sidebar-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Hide sidebar on mobile — use bottom bar instead */
+@media (max-width: 768px) {
+  .nav-sidebar {
+    display: none;
+  }
+}
+
 [data-theme="light"] .nav-icon-container {
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1667,7 +1774,7 @@ button.nav-icon-link {
 /* Main Stack Wrapper */
 .project-stack-wrapper {
   position: relative;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   min-height: 700px;
   padding: var(--space-20) 20px 40px;
@@ -1803,9 +1910,8 @@ button.nav-icon-link {
 .stacked-cards-container {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  left: 20px;
+  right: 20px;
   z-index: 50;
   pointer-events: none;
 }
@@ -1966,6 +2072,11 @@ button.nav-icon-link {
     width: 100%;
   }
 
+  .stacked-cards-container {
+    left: 15px;
+    right: 15px;
+  }
+
   .stacked-card:nth-child(1) {
     top: 0;
     height: 160px;
@@ -2021,6 +2132,11 @@ button.nav-icon-link {
   .project-stack-wrapper {
     padding: var(--space-12) 10px 20px;
     min-height: 550px;
+  }
+
+  .stacked-cards-container {
+    left: 10px;
+    right: 10px;
   }
 
   .stacked-card:nth-child(1) {
@@ -2336,6 +2452,40 @@ footer>p {
   line-height: 1.7;
   margin: 0;
   font-size: var(--fs-base);
+}
+
+.experience-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.experience-bullets li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: var(--fs-sm);
+  transition: color var(--duration-normal) ease;
+}
+
+.experience-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+
+.experience-bullets li:hover {
+  color: var(--text-primary);
 }
 
 .experience-skills {
