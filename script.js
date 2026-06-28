@@ -990,21 +990,21 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       title: 'WanderCraft - Travel Itinerary Planner',
       description: 'Full-stack application to plan and organize travel itineraries',
-      image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828',
+      image: 'assets/images/wandercraft.png',
       url: 'https://travel-itinerary-planner-s6oy.onrender.com/',
       tech: ['Java Servlet/JSP', 'HTML 5', 'CSS 3', 'MySQL']
     },
     {
       title: 'Nike Replica',
       description: 'Frontend clone of Nike\'s e-commerce website',
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+      image: 'assets/images/nike replica.jpg',
       url: 'https://nike-clone-g9x5.onrender.com',
       tech: ['HTML 5', 'CSS 3', 'JavaScript']
     },
     {
       title: 'BioQR',
       description: 'Secure file sharing with biometric authentication and dynamic QR codes',
-      image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c',
+      image: 'assets/images/bioqr.png',
       url: 'https://bioqr-webapp-lvzy.onrender.com/',
       tech: ['HTML 5', 'CSS 3', 'JavaScript', 'Node.js', 'Express.js', 'MySQL', 'Java']
     }

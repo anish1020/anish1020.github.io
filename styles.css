@@ -1842,7 +1842,7 @@ button.nav-icon-link {
 
 
 .project-details {
-  padding: 0 var(--space-8) var(--space-8) var(--space-8);
+  padding: var(--space-6) var(--space-8) var(--space-8) var(--space-8);
 }
 
 .project-details h3 {
@@ -4154,4 +4154,39 @@ body.recruiter-active .view-toggle-slider {
   .recruiter-skills-list {
     gap: var(--space-2);
   }
+}
+
+/* --- Project Image Display Customizations --- */
+.main-card .project-image img[src*="bioqr.png"] {
+  object-fit: contain !important;
+  background-color: #ffffff !important;
+  padding: var(--space-8) !important;
+}
+
+.stacked-thumbnail img[src*="bioqr.png"] {
+  object-fit: contain !important;
+  background-color: #ffffff !important;
+  padding: var(--space-2) !important;
+}
+
+.main-card .project-image img[src*="wandercraft.png"] {
+  object-fit: cover !important;
+  object-position: center 50% !important;
+}
+
+.stacked-thumbnail img[src*="wandercraft.png"] {
+  object-fit: contain !important;
+  background-color: var(--bg-secondary) !important;
+}
+
+.main-card .project-image img[src*="nike"] {
+  object-fit: contain !important;
+  background-color: #ffffff !important;
+  padding: var(--space-4) !important;
+}
+
+.stacked-thumbnail img[src*="nike"] {
+  object-fit: contain !important;
+  background-color: #ffffff !important;
+  padding: var(--space-2) !important;
 }
