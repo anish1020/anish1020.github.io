@@ -991,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'WanderCraft - Travel Itinerary Planner',
       description: 'Full-stack application to plan and organize travel itineraries',
       image: 'assets/images/wandercraft.png',
-      url: 'https://travel-itinerary-planner-s6oy.onrender.com/',
+      url: 'https://travel-itinerary-demo-rosy.vercel.app',
       tech: ['Java Servlet/JSP', 'HTML 5', 'CSS 3', 'MySQL']
     },
     {
@@ -1005,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'BioQR',
       description: 'Secure file sharing with biometric authentication and dynamic QR codes',
       image: 'assets/images/bioqr.png',
-      url: 'https://bioqr-webapp-lvzy.onrender.com/',
+      url: 'https://bioqr-demo.vercel.app',
       tech: ['HTML 5', 'CSS 3', 'JavaScript', 'Node.js', 'Express.js', 'MySQL', 'Java']
     }
   ];
