@@ -7,7 +7,9 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-FWFKQW41DE');
+    gtag('config', 'G-FWFKQW41DE', {
+      'version': 'portfolio'
+    });
 
     // Load GA script after page load
     window.addEventListener('load', function () {
@@ -16,6 +18,21 @@
       script.src = 'https://www.googletagmanager.com/gtag/js?id=G-FWFKQW41DE';
       document.head.appendChild(script);
     });
+  </script>
+  <!-- ===== Amplitude Analytics & Session Replay ===== -->
+  <script src="https://cdn.amplitude.com/script/ac5a806dfda5e7041cac3a6971458bfd.js"></script>
+  <script>
+    if (window.amplitude) {
+      window.amplitude.init('ac5a806dfda5e7041cac3a6971458bfd', {
+        fetchRemoteConfig: true,
+        autocapture: {
+          attribution: true,
+          pageViews: true,
+          sessions: true,
+          elementInteractions: true
+        }
+      });
+    }
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
